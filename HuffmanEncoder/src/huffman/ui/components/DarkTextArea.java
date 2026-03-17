@@ -1,11 +1,6 @@
 package huffman.ui.components;
 
-import javax.swing.JTextArea;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
-
 import huffman.ui.theme.AppTheme;
-
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -13,9 +8,11 @@ import java.awt.Insets;
 import java.awt.RenderingHints;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
-
 import javax.swing.BorderFactory;
 import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 public class DarkTextArea extends JTextArea {
 
@@ -67,7 +64,7 @@ public class DarkTextArea extends JTextArea {
     }
 
     public void setPlaceholder(String s) {
-        this.placeholder = p;
+        this.placeholder = s;
         repaint();
     }
 
