@@ -1,15 +1,14 @@
 package huffman.ui.components;
 
+import huffman.ui.theme.AppTheme;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
-
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.plaf.basic.BasicScrollBarUI;
-
-import huffman.ui.theme.AppTheme;
 
 public class SlimScrollBarUI extends BasicScrollBarUI {
 
@@ -27,6 +26,12 @@ public class SlimScrollBarUI extends BasicScrollBarUI {
     @Override
     protected JButton createIncreaseButton(int o) {
         return zeroButton();
+    }
+
+    private JButton zeroButton() {
+        JButton b = new JButton();
+        b.setPreferredSize(new Dimension(0, 0));
+        return b;
     }
 
     @Override
