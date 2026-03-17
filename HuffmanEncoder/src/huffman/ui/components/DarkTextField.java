@@ -1,6 +1,8 @@
 package huffman.ui.components;
 
+import huffman.ui.theme.AppTheme;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -8,11 +10,8 @@ import java.awt.Insets;
 import java.awt.RenderingHints;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
-
-import javax.swing.JTextField;
-
-import huffman.ui.theme.AppTheme;
 import javax.swing.BorderFactory;
+import javax.swing.JTextField;
 
 public class DarkTextField extends JTextField {
 
