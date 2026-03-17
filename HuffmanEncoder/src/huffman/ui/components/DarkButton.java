@@ -1,19 +1,18 @@
 package huffman.ui.components;
 
+import huffman.ui.theme.AppTheme;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-
+import java.awt.geom.RoundRectangle2D;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.Timer;
-
-import huffman.ui.theme.AppTheme;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
-import java.awt.geom.RoundRectangle2D;
 
 public class DarkButton extends JButton {
     public enum Style { PRIMARY, SECONDARY, GHOST, DANGER }
@@ -109,7 +108,7 @@ public class DarkButton extends JButton {
         if (style == Style.PRIMARY && isEnabled()) {
             AppTheme.paintGlow(g2, 0, 0, w, h, AppTheme.ACCENT, (int)(hoverAlpha * 6) + 2);
         }
-        g2.dipose();
+        g2.dispose();
         super.paintComponent(g);
     }
 
