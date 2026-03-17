@@ -1,6 +1,9 @@
+package huffman;
 
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
+
+import huffman.ui.theme.AppTheme;
 
 public class Main {
 
