@@ -7,6 +7,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.geom.RoundRectangle2D;
 import javax.swing.BorderFactory;
@@ -14,6 +15,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JWindow;
+import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
 public class ToastNotification extends JWindow {
@@ -67,6 +69,47 @@ public class ToastNotification extends JWindow {
         JLabel lbl = new JLabel(message);
         lbl.setForeground(AppTheme.TEXT_PRIMARY);
         lbl.setFont(AppTheme.FONT_UI.deriveFont(13f));
-        
+        panel.add(lbl, BorderLayout.CENTER);
+        setContentPane(panel);
+        pack();
+
+        // Position bottom-right of owner
+        if (owner != null) {
+            Rectangle ob = owner.getBounds();
+            setLocation(ob.x + ob.width - getWidth() - 20, ob.y + ob.height - getHeight() - 40);
+        }
+
+        // Fade in effect
+        showTimer = new Timer(16, e -> {
+            alpha = Math.min(1f, alpha + 0.08f);
+            repaint();
+            if (alpha >= 1f) {
+                ((Timer) e.getSource()).stop();
+                scheduleHide();
+            }
+        });
+        setVisible(true);
+        showTimer.start();
+    }
+
+    private void scheduleHide() {
+        Timer delay = new Timer(2500, e -> {
+            ((Timer) e.getSource()).stop();
+            hideTimer = new Timer(16, ev -> {
+                alpha = Math.max(0f, alpha - 0.05f);
+                repaint();
+                if (alpha <= 0f) {
+                    ((Timer) ev.getSource()).stop();
+                    dispose();
+                }
+            });
+        });
+
+        delay.setRepeats(false);
+        delay.start();
+    }
+
+    public static void show(JFrame owner, String msg, Type type) {
+        SwingUtilities.invokeLater(() -> new ToastNotification(owner, msg, type));
     }
 }
