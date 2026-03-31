@@ -16,4 +16,3 @@ Huffman Coding is a lossless data compression algorithm that assigns variable-le
 - **Compression Statistics**: View compression ratio and performance metrics
 - **Clipboard Support**: Quickly copy/paste compressed content
 
-## Project Structure
