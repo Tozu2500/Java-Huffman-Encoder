@@ -1,5 +1,6 @@
 package huffman.ui;
 
+import huffman.ui.components.GlowLabel;
 import huffman.ui.panels.CodeTablePanel;
 import huffman.ui.panels.DecoderPanel;
 import huffman.ui.panels.EncoderPanel;
@@ -11,10 +12,13 @@ import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.GradientPaint;
 import java.awt.Graphics;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
@@ -22,6 +26,9 @@ import huffman.ui.theme.AppTheme;
 import java.awt.Component;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+
+import javax.swing.BorderFactory;
+import javax.swing.Box;
 import javax.swing.Icon;
 
 public class MainWindow extends JFrame {
@@ -132,5 +139,38 @@ public class MainWindow extends JFrame {
                 g2.dispose();
             }
         };
+
+        header.setOpaque(false);
+        header.setBorder(BorderFactory.createEmptyBorder(12, 20, 12, 20));
+
+        // Logo area
+        JPanel logoArea = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 0));
+        logoArea.setOpaque(false);
+
+        JLabel logo = new GlowLabel("⟨H⟩ HUFFMAN", AppTheme.ACCENT);
+        logo.setFont(AppTheme.FONT_TITLE.deriveFont(Font.BOLD, 22f));
+
+        JLabel subtitle = new JLabel("Lossless Compression Studio");
+        subtitle.setForeground(AppTheme.TEXT_SECONDARY);
+        subtitle.setFont(AppTheme.FONT_UI.deriveFont(12f));
+        
+        logoArea.add(logo);
+        logoArea.add(Box.createHorizontalStrut(0));
+        logoArea.add(subtitle);
+
+        // Right info
+        JPanel rightInfo = new JPanel(new FlowLayout(FlowLayout.RIGHT, 14, 0));
+        rightInfo.setOpaque(false);
+
+        String[] badges = {"Algorithm: Huffman", "Lossless", "UTF-8"};
+        Color[] badgeColors = {AppTheme.ACCENT, AppTheme.SUCCESS, AppTheme.ACCENT2};
+
+        for (int i = 0; i < badges.length; i++) {
+            rightInfo.add(makeBadge(badges[i], badgeColors[i]));
+        }
+
+        header.add(logoArea, BorderLayout.WEST);
+        header.add(rightInfo, BorderLayout.EAST);
+        return header;
     }
 }
