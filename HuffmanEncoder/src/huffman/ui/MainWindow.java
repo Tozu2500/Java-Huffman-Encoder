@@ -21,11 +21,13 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
+import javax.swing.plaf.basic.BasicTabbedPaneUI;
 
 import huffman.ui.theme.AppTheme;
 import java.awt.Component;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.geom.RoundRectangle2D;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -172,5 +174,91 @@ public class MainWindow extends JFrame {
         header.add(logoArea, BorderLayout.WEST);
         header.add(rightInfo, BorderLayout.EAST);
         return header;
+    }
+
+    private JLabel makeBadge(String text, Color col) {
+        JLabel lbl = new JLabel(text) {
+            @Override
+            protected void paintComponent(Graphics g) {
+                Graphics2D g2 = (Graphics2D) g.create();
+                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                g2.setColor(new Color(col.getRed(), col.getGreen(), col.getBlue(), 30));
+                g2.fill(new RoundRectangle2D.Float(0, 0, getWidth(), getHeight(), 8, 8));
+                g2.setColor(col);
+                g2.setStroke(new BasicStroke(1));
+                g2.draw(new RoundRectangle2D.Float(0.5f, 0.5f, getWidth() - 1, getHeight() - 1, 8, 8));
+                g2.dispose();
+                super.paintComponent(g);
+            }
+
+            public boolean isOpaque() {
+                return false;
+            }
+        };
+
+        lbl.setFont(AppTheme.FONT_UI.deriveFont(10f));
+        lbl.setForeground(col);
+        lbl.setBorder(BorderFactory.createEmptyBorder(3, 8, 3, 8));
+
+        return lbl;
+    }
+
+    private JTabbedPane buildTabs() {
+        JTabbedPane tb = new JTabbedPane();
+        tb.setOpaque(false);
+        tb.setBackground(AppTheme.BG_BASE);
+        tb.setForeground(AppTheme.TEXT_SECONDARY);
+        tb.setFont(AppTheme.FONT_UI.deriveFont(13f));
+        tb.setBorder(BorderFactory.createEmptyBorder());
+        tb.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
+
+        tb.setUI(new BasicTabbedPaneUI() {
+            @Override
+            protected void installDefaults() {
+                super.installDefaults();
+                highlight = AppTheme.BG_BASE;
+                lightHighlight = AppTheme.BG_BASE;
+                shadow = AppTheme.BG_BASE;
+                darkShadow = AppTheme.BG_BASE;
+                focus = AppTheme.BG_BASE;
+            }
+
+            protected int getTabLabelShiftY() {
+                return 0;
+            }
+
+            @Override
+            protected void paintTabBackground(Graphics g, int tabPlacement, int tabIndex, int x, int y, int w, int h, boolean isSelected) {
+                Graphics2D g2 = (Graphics2D) g.create();
+                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+                if (isSelected) {
+                    g2.setColor(AppTheme.BG_PANEL);
+                    g2.fillRoundRect(x, y, w, h, 8, 8);
+                    GradientPaint gp = new GradientPaint(x, y+h-2, AppTheme.ACCENT, x+w/2, y+h-2, AppTheme.ACCENT2);
+                    g2.setPaint(gp);
+                    g2.fillRect(x+4, y+h-2, w-8, 2);
+                } else {
+                    g2.setColor(AppTheme.BG_BASE);
+                    g2.fillRect(x, y, w, h);
+                }
+                g2.dispose();
+            }
+
+            @Override
+            protected void paintTabBorder(Graphics g, int tp2, int ti, int x, int y, int w, int h, boolean sel) {}
+
+            @Override
+            protected void paintFocusIndicator(Graphics g, int tp2, Rectangle[] rs, int ti, Rectangle ir, Rectangle tr, boolean sel) {}
+
+            @Override
+            protected void paintContentBorder(Graphics g, int tp2, int si) {
+                g.setColor(AppTheme.BORDER);
+                g.fillRect(0, calculateTabAreaHeight(tp2, runCount, maxTabHeight) + tabPane.getInsets().top - 1,
+                        tabPane.getWidth(), 1);
+            }
+        });
+
+        return tb;
     }
 }
