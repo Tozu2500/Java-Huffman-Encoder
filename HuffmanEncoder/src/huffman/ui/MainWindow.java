@@ -261,4 +261,17 @@ public class MainWindow extends JFrame {
 
         return tb;
     }
+
+    private JPanel buildStatusBar() {
+        JPanel bar = new JPanel(new FlowLayout(FlowLayout.LEFT, 14, 4));
+        bar.setBackground(AppTheme.BG_BASE);
+        bar.setBorder(BorderFactory.createMatteBorder(1, 0, 0, 0, AppTheme.BORDER));
+
+        JLabel lbl = new JLabel("Ready  -  Huffman Encoder  -  Java");
+        lbl.setForeground(AppTheme.TEXT_MUTED);
+        lbl.setFont(AppTheme.FONT_UI.deriveFont(10f));
+        bar.add(lbl);
+
+        return bar;
+    }
 }
