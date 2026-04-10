@@ -7,31 +7,31 @@ import huffman.ui.panels.EncoderPanel;
 import huffman.ui.panels.FilePanel;
 import huffman.ui.panels.FrequencyPanel;
 import huffman.ui.panels.VisualizerPanel;
-
+import huffman.ui.theme.AppTheme;
 import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.GradientPaint;
 import java.awt.Graphics;
-
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.Rectangle;
+import java.awt.RenderingHints;
+import java.awt.geom.RoundRectangle2D;
+import java.awt.image.BufferedImage;
+import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.Icon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.plaf.basic.BasicTabbedPaneUI;
-
-import huffman.ui.theme.AppTheme;
-import java.awt.Component;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
-import java.awt.geom.RoundRectangle2D;
-
-import javax.swing.BorderFactory;
-import javax.swing.Box;
-import javax.swing.Icon;
 
 public class MainWindow extends JFrame {
 
@@ -273,5 +273,40 @@ public class MainWindow extends JFrame {
         bar.add(lbl);
 
         return bar;
+    }
+
+    // Drawing a 32x32 custom JFrame icon with an H letter
+    private Image createWindowIcon() {
+        int iconSize = 32;
+
+        // Transparent IMG with ARGB color model
+        BufferedImage iconImage = new BufferedImage(iconSize, iconSize, BufferedImage.TYPE_INT_ARGB);
+
+        Graphics2D graphics = iconImage.createGraphics();
+
+        // High quality renders
+        graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        graphics.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+
+        // BG Drawing
+        graphics.setColor(AppTheme.BG_PANEL);
+        graphics.fillRoundRect(0, 0, iconSize, iconSize, 8, 8);
+
+        // Border draw
+        graphics.setColor(AppTheme.ACCENT);
+        graphics.setStroke(new BasicStroke(2));
+        graphics.drawRoundRect(1, 1, iconSize - 3, iconSize - 3, 8, 8);
+
+        // Letter "H" drawing
+        graphics.setFont(new Font("Segoe UI", Font.BOLD, 22));
+        FontMetrics fontMetrics = graphics.getFontMetrics();
+
+        int textY = (iconSize - fontMetrics.stringWidth("H")) / 2;
+        int textX = (iconSize - fontMetrics.getHeight()) / 2 + fontMetrics.getAscent();
+        graphics.drawString("H", textX, textY);
+
+        graphics.dispose();
+
+        return iconImage;
     }
 }
