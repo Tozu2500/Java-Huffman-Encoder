@@ -277,36 +277,38 @@ public class MainWindow extends JFrame {
 
     // Drawing a 32x32 custom JFrame icon with an H letter
     private Image createWindowIcon() {
+        // Set icon size to 32x32 pixels
         int iconSize = 32;
-
-        // Transparent IMG with ARGB color model
+        
+        // Create a transparent image with ARGB color model to support transparency
         BufferedImage iconImage = new BufferedImage(iconSize, iconSize, BufferedImage.TYPE_INT_ARGB);
-
+        
+        // Get graphics context to draw on the image
         Graphics2D graphics = iconImage.createGraphics();
-
-        // High quality renders
+        
+        // Enable high-quality rendering for smooth shapes and text
         graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         graphics.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-
-        // BG Drawing
+        
+        // Draw background: filled rounded rectangle with panel background color
         graphics.setColor(AppTheme.BG_PANEL);
         graphics.fillRoundRect(0, 0, iconSize, iconSize, 8, 8);
-
-        // Border draw
+        
+        // Draw border: rounded rectangle outline in accent color
         graphics.setColor(AppTheme.ACCENT);
         graphics.setStroke(new BasicStroke(2));
         graphics.drawRoundRect(1, 1, iconSize - 3, iconSize - 3, 8, 8);
-
-        // Letter "H" drawing
+        
+        // Draw letter: bold "H" centered in the icon
         graphics.setFont(new Font("Segoe UI", Font.BOLD, 22));
         FontMetrics fontMetrics = graphics.getFontMetrics();
-
-        int textY = (iconSize - fontMetrics.stringWidth("H")) / 2;
-        int textX = (iconSize - fontMetrics.getHeight()) / 2 + fontMetrics.getAscent();
+        int textX = (iconSize - fontMetrics.stringWidth("H")) / 2;
+        int textY = (iconSize - fontMetrics.getHeight()) / 2 + fontMetrics.getAscent();
         graphics.drawString("H", textX, textY);
-
+        
+        // Clean up graphics resources
         graphics.dispose();
-
+        
         return iconImage;
     }
 }
